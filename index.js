@@ -12,7 +12,9 @@ app.use(cors());
 
 app.use(express.json());
 
-mongoose.connect("mongodb://localhost:27017/todolist");
+mongoose.connect(
+  "mongodb+srv://vercel-admin-user:geR3PRAgOuKgAxqB@cluster0.q85uvgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+);
 
 app.post("/api/register", async (req, res) => {
   console.log(req.body);
