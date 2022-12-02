@@ -64,3 +64,5 @@ app.post("/api/login", async (req, res) => {
 app.listen(1337, () => {
   console.log("Server started @ port 1337");
 });
+
+module.exports = app;
