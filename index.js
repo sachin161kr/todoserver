@@ -1,5 +1,5 @@
 const express = require("express");
-
+const process = require("process");
 const app = express();
 
 const cors = require("cors");
@@ -42,6 +42,10 @@ app.post("/api/register", async (req, res) => {
   }
 });
 
+app.get("/", (req, res) => {
+  res.send("hello world");
+});
+
 app.post("/api/login", async (req, res) => {
   const user = await User.findOne({
     email: req.body.email,
@@ -61,8 +65,8 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.listen(1337, () => {
+const PORT = process.env.PORT || 1337;
+
+app.listen(PORT, () => {
   console.log("Server started @ port 1337");
 });
-
-module.exports = app;
