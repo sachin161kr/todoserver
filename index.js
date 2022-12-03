@@ -13,9 +13,10 @@ app.use(cors());
 
 app.use(express.json());
 
-mongoose.connect(
-  "mongodb+srv://vercel-admin-user:geR3PRAgOuKgAxqB@cluster0.q85uvgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-);
+// mongoose.connect(
+//   "mongodb+srv://vercel-admin-user:geR3PRAgOuKgAxqB@cluster0.q85uvgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+// );
+mongoose.connect("mongodb://localhost:27017/todolist");
 
 app.post("/api/register", async (req, res) => {
   console.log(req.body);
@@ -48,17 +49,53 @@ app.get("/", (req, res) => {
 });
 
 app.post("/api/addTodo", async (req, res) => {
-  const title = req.body.title;
-  const desc = req.body.desc;
-
-  const todo = await TodoData.insert({
+  const todo = await TodoData.create({
     email: req.body.email,
-    todo: { title, desc },
+    title: req.body.title,
+    desc: req.body.desc,
   });
 
   res.json({
     status: "ok",
   });
+});
+
+app.get("/api/getTodos", async (req, res) => {
+  const todos = await TodoData.find({
+    email: req.body.email,
+  });
+
+  if (todos) {
+    res.json(todos);
+  } else {
+    res.json({
+      status: "error",
+      error: "no record found",
+    });
+  }
+});
+
+app.post("/api/deleteTodo", async (req, res) => {
+  const todo = await TodoData.findOne({
+    email: req.body.email,
+    title: req.body.title,
+  });
+
+  if (todo) {
+    const todo = await TodoData.deleteOne({
+      email: req.body.email,
+      title: req.body.title,
+    });
+
+    res.json({
+      status: "ok",
+    });
+  } else {
+    res.json({
+      status: "error",
+      error: "No Record Found",
+    });
+  }
 });
 
 app.post("/api/login", async (req, res) => {
