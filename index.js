@@ -13,10 +13,10 @@ app.use(cors());
 
 app.use(express.json());
 
-mongoose.connect(
-  "mongodb+srv://vercel-admin-user:geR3PRAgOuKgAxqB@cluster0.q85uvgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
-);
-//mongoose.connect("mongodb://localhost:27017/todolist");
+// mongoose.connect(
+//   "mongodb+srv://vercel-admin-user:geR3PRAgOuKgAxqB@cluster0.q85uvgx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority"
+// );
+mongoose.connect("mongodb://localhost:27017/todolist");
 
 app.post("/api/register", async (req, res) => {
   console.log(req.body);
@@ -60,9 +60,10 @@ app.post("/api/addTodo", async (req, res) => {
   });
 });
 
-app.get("/api/getTodos", async (req, res) => {
+app.get("/api/getTodos/:email", async (req, res) => {
+  console.log(req.params.email);
   const todos = await TodoData.find({
-    email: req.body.email,
+    email: req.params.email,
   });
 
   if (todos) {
