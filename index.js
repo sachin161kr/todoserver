@@ -7,6 +7,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 const User = require("./models/user.model");
+const TodoData = require("./models/tododata");
 
 app.use(cors());
 
@@ -44,6 +45,20 @@ app.post("/api/register", async (req, res) => {
 
 app.get("/", (req, res) => {
   res.send("hello world");
+});
+
+app.post("/api/addTodo", async (req, res) => {
+  const title = req.body.title;
+  const desc = req.body.desc;
+
+  const todo = await TodoData.insert({
+    email: req.body.email,
+    todo: { title, desc },
+  });
+
+  res.json({
+    status: "ok",
+  });
 });
 
 app.post("/api/login", async (req, res) => {
