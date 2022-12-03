@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const TodoData = new mongoose.Schema(
   {
     email: { type: String, require: true, unique: true },
-    todos: { require: true },
+    todos: { type: Object, require: true, unique: false },
   },
   { collection: "userTodosData" }
 );
